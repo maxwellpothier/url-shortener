@@ -38,6 +38,14 @@ export default function Home() {
 		}
 	};
 
+	const copyToClipboard = async () => {
+		try {
+			await navigator.clipboard.writeText(submittedUrl);
+		} catch (err) {
+			console.error("Failed to copy: ", err);
+		}
+	};
+
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen">
 			<h1 className="text-2xl font-bold mb-6">URL Shortener</h1>
@@ -59,15 +67,22 @@ export default function Home() {
 				<p className="mt-4 text-red-500">{errorMessage}</p>
 			) : (
 				submittedUrl && (
-					<p className="mt-4">
-						Shortened URL:{" "}
-						<a
-							href={submittedUrl}
-							target="_blank"
-							rel="noopener noreferrer">
-							{submittedUrl}
-						</a>
-					</p>
+					<div className="mt-4 flex flex-col items-center">
+						<p>
+							Shortened URL:{" "}
+							<a
+								href={submittedUrl}
+								target="_blank"
+								rel="noopener noreferrer">
+								{submittedUrl}
+							</a>
+						</p>
+						<button
+							onClick={copyToClipboard}
+							className="mt-2 px-4 py-2 bg-green-500 text-white rounded">
+							Copy to Clipboard
+						</button>
+					</div>
 				)
 			)}
 		</div>
